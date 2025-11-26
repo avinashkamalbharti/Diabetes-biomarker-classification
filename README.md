@@ -72,9 +72,8 @@ Traditional diabetes diagnosis relies primarily on fasting glucose and HbA1c thr
 - **Class 1**: Pre-Diabetic
 - **Class 2**: Diabetic
 
-**Sample Size**: [Add your sample size here]  
-**Data Source**: [Specify if synthetic, anonymized clinical data, or public dataset]  
-**Ethics**: [If applicable, mention IRB approval or data anonymization protocols]
+**Sample Size**: 264 samples  
+**Data Source**: Kaggle dataset (https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset#)
 
 ## Methodology
 
@@ -84,7 +83,7 @@ Raw Data → Preprocessing → EDA → Feature Engineering → Model Training �
 ```
 
 ### 1. Data Preprocessing
-- **Missing Values**: [Describe your approach: imputation, deletion, etc.]
+- **Missing Values**: There was no missing values in our dataset. 
 - **Outlier Detection**: IQR method / Z-score analysis
 - **Feature Scaling**: StandardScaler for continuous features
 - **Encoding**: Label encoding for categorical variables
@@ -93,7 +92,6 @@ Raw Data → Preprocessing → EDA → Feature Engineering → Model Training �
 - Correlation analysis between biomarkers
 - Class distribution analysis
 - Biomarker distribution by diabetes status
-- Statistical tests (t-tests, ANOVA) for feature significance
 
 ### 3. Model Training
 We implemented and compared multiple algorithms:
@@ -120,9 +118,10 @@ We implemented and compared multiple algorithms:
 
 | Model | Accuracy | Precision | Recall | F1-Score |
 |-------|----------|-----------|--------|----------|
-| Random Forest | **95.00%** | 0.94 | 0.95 | 0.94 |
-| SVM | [Add]% | [Add] | [Add] | [Add] |
-| Logistic Regression | [Add]% | [Add] | [Add] | [Add] |
+| Random Forest | **95.00%** | **0.94** | **0.95** | **0.94** |
+| SVM | **87.50%** | **0.8767** | **87.50** | **0.8734** |
+| Logistic Regression | **90.00%**| **0.8990** | **0.9000** | **0.8977** |
+| Gradient Boosting | **93.75%** | **0.9378** | **0.9375** | **0.9373** | 
 
 ### Confusion Matrix (Random Forest)
 ![Confusion Matrix](results/confusion_matrix.png)
