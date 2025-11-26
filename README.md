@@ -11,9 +11,9 @@ The primary objective is to develop a diagnostic aid that interprets complex int
 * **Feature Importance:** The study identified **HbA1c** as the most critical biomarker for classification, followed by Cholesterol and Urea. Gender and HDL were found to have minimal impact on the prediction.
 
 ## 📂 Repository Structure
-* `ML_Final0_2-2.ipynb`: The core Jupyter Notebook containing data preprocessing, EDA (Exploratory Data Analysis), model training, and evaluation.
+* `Diabetes_Predication_Model`: The core Jupyter Notebook containing data preprocessing, EDA (Exploratory Data Analysis), model training, and evaluation.
 * `diabetes_raw.csv`: The dataset containing 12 clinical features including HbA1c, BMI, Triglycerides (TG), and LDL/HDL levels.
-* `ml.pptx`: Project presentation slides summarizing the problem motivation and final results.
+* `ML_Presentation`: Project presentation slides summarizing the problem motivation and final results.
 
 ## ⚙️ Methodology
 The project follows a standard Data Science lifecycle:
