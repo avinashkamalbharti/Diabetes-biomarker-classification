@@ -256,7 +256,7 @@ If you use this work in your research, please cite:
 @misc{bharti2024diabetes,
   author = {Bharti, Avinash Kamal},
   title = {Multiclass Classification of Diabetes Using Machine Learning},
-  year = {2024},
+  year = {2025},
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/avinashkamalbharti/Diabetes-biomarker-classification}}
