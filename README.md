@@ -15,7 +15,6 @@ Diabetes mellitus affects over 537 million adults globally, with a significant p
 - [Limitations & Future Work](#limitations--future-work)
 - [Related Work](#related-work)
 - [Citation](#citation)
-- [License](#license)
 
 ## Research Motivation
 
@@ -73,7 +72,7 @@ Traditional diabetes diagnosis relies primarily on fasting glucose and HbA1c thr
 - **Class 2**: Diabetic
 
 **Sample Size**: 264 samples  
-**Data Source**: Kaggle dataset
+**Data Source**: Kaggle dataset (https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset)
 
 ## Methodology
 
@@ -124,15 +123,18 @@ We implemented and compared multiple algorithms:
 | Gradient Boosting | **93.75%** | **0.9378** | **0.9375** | **0.9373** | 
 
 ### Confusion Matrix (Random Forest)
-![Confusion Matrix](results/confusion_matrix.png)
+![Confusion Matrix] <img width="1345" height="1189" alt="Unknown" src="https://github.com/user-attachments/assets/ec65a16a-c6f6-4cda-ad4f-f9d0dc96b60f" />
+
 *The model shows strong discrimination across all three classes with minimal misclassification between Non-Diabetic and Diabetic states.*
 
 ### Feature Importance
-![Feature Importance](results/feature_importance.png)
+![Feature Importance]<img width="989" height="590" alt="Unknown-2" src="https://github.com/user-attachments/assets/ef4547d3-3f1d-4984-8429-8949525a19c3" />
+
 *HbA1c emerges as the dominant predictor (45% importance), consistent with its role as the gold standard for diabetes diagnosis.*
 
 ### ROC Curves
-![ROC Curves](results/roc_curves.png)
+![ROC Curves]<img width="989" height="790" alt="Unknown-3" src="https://github.com/user-attachments/assets/dfc9a6e1-b029-4da0-a848-86069513ecec" />
+
 *One-vs-Rest ROC analysis demonstrates high AUC (>0.95) for all classes, indicating excellent discrimination.*
 
 ## Repository Structure
