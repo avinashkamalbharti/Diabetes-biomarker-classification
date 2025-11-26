@@ -73,7 +73,7 @@ Traditional diabetes diagnosis relies primarily on fasting glucose and HbA1c thr
 - **Class 2**: Diabetic
 
 **Sample Size**: 264 samples  
-**Data Source**: Kaggle dataset (https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset#)
+**Data Source**: Kaggle dataset
 
 ## Methodology
 
