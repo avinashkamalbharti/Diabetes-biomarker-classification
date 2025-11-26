@@ -37,7 +37,12 @@ The project follows a standard Data Science lifecycle:
 3.  Open the notebook:
     ```bash
     jupyter notebook ML_Final0_2-2.ipynb
-    ```
+
+    ``
+   <img width="1164" height="784" alt="Screenshot 2025-11-26 at 10 45 30" src="https://github.com/user-attachments/assets/363efb3d-0b1e-4596-96f3-37acbd4676cf" />
+<img width="1164" height="796" alt="Screenshot 2025-11-26 at 10 45 22" src="https://github.com/user-attachments/assets/34c1d36c-fabd-4eeb-835f-223cb701a942" />
+<img width="1164" height="802" alt="Screenshot 2025-11-26 at 10 45 01" src="https://github.com/user-attachments/assets/7d9e9cc5-b192-45aa-8ccb-ad984d517696" />
+ 
 
 ## 🛠 Tech Stack
 * **Language:** Python 3.x
