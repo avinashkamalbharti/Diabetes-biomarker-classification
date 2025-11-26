@@ -103,7 +103,7 @@ We implemented and compared multiple algorithms:
 | **Random Forest** | Ensemble method, handles non-linearity, provides feature importance |
 | **Support Vector Machine** | Effective in high-dimensional spaces, kernel tricks |
 | **Logistic Regression** | Baseline linear model, interpretable |
-| **[Add if used]** XGBoost/LightGBM | Gradient boosting for comparison |
+| **Gradient Boosting** | Gradient boosting for comparison |
 
 **Hyperparameter Tuning**: Grid Search with 5-fold cross-validation  
 **Validation Strategy**: 80/20 train-test split with stratification
