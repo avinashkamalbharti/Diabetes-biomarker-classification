@@ -1,9 +1,5 @@
 # Multiclass Classification of Diabetes Using Machine Learning
 
-[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-
 ## Abstract
 
 Diabetes mellitus affects over 537 million adults globally, with a significant proportion remaining undiagnosed in the critical prediabetic stage. Early detection of prediabetes enables timely lifestyle interventions and can prevent or delay progression to type 2 diabetes. This study presents a machine learning approach for automated three-class classification of patients into Non-Diabetic, Pre-Diabetic, and Diabetic categories using standard clinical biomarkers. We comparatively evaluate multiple classification algorithms and achieve 95% accuracy using a Random Forest classifier. Feature importance analysis reveals HbA1c as the dominant predictive biomarker, followed by cholesterol and urea levels. Our findings demonstrate the potential of ML-based diagnostic aids to support clinicians in early diabetes detection, particularly in resource-constrained settings where comprehensive screening may be limited.
@@ -272,20 +268,13 @@ If you use this work in your research, please cite:
 PhD Student, Computer Science (CS 403/603)  
 Indian Institute of Technology Indore  
 
-📧 [Your email]  
-🔗 [LinkedIn](your-linkedin)  
-🌐 [Personal Website](your-website)
+📧 avinashkamalbharti@gmail.com 
+🔗 [LinkedIn](https://www.linkedin.com/in/avinashkamalbharti/)
 
 ## Acknowledgments
 
-This project was developed as part of PhD coursework at IIT Indore. We thank [any advisors, collaborators, or data providers].
+This project was developed as part of PhD coursework at IIT Indore. We thank our advisor Dr. Puneet Gupta for his mentorship.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**Last Updated**: November 2024  
+**Last Updated**: November 2025  
 **Status**: Active Development  
 **Feedback**: Issues and pull requests are welcome!
