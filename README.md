@@ -1,281 +1,81 @@
 # Multiclass Classification of Diabetes Using Machine Learning
 
-## Abstract
+Classifying patients as non-diabetic, prediabetic or diabetic from 11 routine clinical measurements, and comparing four standard classifiers on a public dataset of 264 patients. Course project for CS 403/603 Machine Learning at IIT Indore (2025).
 
-Diabetes mellitus affects over 537 million adults globally, with a significant proportion remaining undiagnosed in the critical prediabetic stage. Early detection of prediabetes enables timely lifestyle interventions and can prevent or delay progression to type 2 diabetes. This study presents a machine learning approach for automated three-class classification of patients into Non-Diabetic, Pre-Diabetic, and Diabetic categories using standard clinical biomarkers. We comparatively evaluate multiple classification algorithms and achieve 95% accuracy using a Random Forest classifier. Feature importance analysis reveals HbA1c as the dominant predictive biomarker, followed by cholesterol and urea levels. Our findings demonstrate the potential of ML-based diagnostic aids to support clinicians in early diabetes detection, particularly in resource-constrained settings where comprehensive screening may be limited.
+## Summary
 
-## Table of Contents
-- [Research Motivation](#research-motivation)
-- [Key Findings](#key-findings)
-- [Dataset](#dataset)
-- [Methodology](#methodology)
-- [Results](#results)
-- [Repository Structure](#repository-structure)
-- [Installation & Usage](#installation--usage)
-- [Limitations & Future Work](#limitations--future-work)
-- [Related Work](#related-work)
-- [Citation](#citation)
+| | |
+|---|---|
+| Data | 264 patients (96 non-diabetic, 40 prediabetic, 128 diabetic), 11 features |
+| Evaluation | Stratified 70/30 train/test split (184/80 patients, `random_state=42`); 5-fold cross-validation on the training set |
+| Best model | Random forest (100 trees, default settings) |
+| Test accuracy | 0.95 (76 of 80 test patients) |
+| Prediabetic recall | 0.92 (11 of 12 test patients) |
+| Top features (random-forest importance) | HbA1c 0.417, BMI 0.270, age 0.114 |
 
-## Research Motivation
+## Data
 
-### Clinical Significance
-- **Global Impact**: According to the International Diabetes Federation (IDF), 1 in 10 adults has diabetes, with projections reaching 783 million by 2045
-- **Prediabetes Gap**: An estimated 541 million adults have impaired glucose tolerance (prediabetes), yet many remain undiagnosed
-- **Intervention Window**: Early detection of prediabetes enables lifestyle modifications that can reduce diabetes risk by 58%
+`diabetes_raw.csv`: 264 rows, 11 features and a `Class` label (0 = non-diabetic, 1 = prediabetic, 2 = diabetic).
 
-### Technical Challenge
-Traditional diabetes diagnosis relies primarily on fasting glucose and HbA1c thresholds. However, complex interactions between multiple biomarkers (lipid profiles, kidney function markers, BMI) are often not systematically considered. Machine learning can identify subtle patterns across these multidimensional biomarker profiles to improve classification accuracy, particularly for the challenging prediabetic state.
+Features: `Gender`, `AGE`, `Urea`, `Cr` (creatinine), `HbA1c`, `Chol` (total cholesterol), `TG` (triglycerides), `HDL`, `LDL`, `VLDL`, `BMI`. There are no missing values.
 
-### Research Objectives
-1. Develop a robust multiclass classifier for diabetes staging using standard clinical tests
-2. Identify the most predictive biomarkers through feature importance analysis
-3. Compare multiple ML algorithms to determine optimal approach
-4. Provide interpretable results suitable for clinical decision support
+Source: the Multiclass Diabetes Dataset, downloaded from [Kaggle](https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset). The same 264-patient set is published on Mendeley Data:
 
-## Key Findings
+- Sahid, A., Babar, M. U. H. and Uddin, M. P. (2024). *Multiclass Diabetes Dataset*. Mendeley Data, V1. [doi:10.17632/jpp8bsjgrm.1](https://doi.org/10.17632/jpp8bsjgrm.1). CC BY 4.0. A refined subset of:
+- Rashid, A. (2020). *Diabetes Dataset*. Mendeley Data, V1. [doi:10.17632/wj9rwkp9c2.1](https://doi.org/10.17632/wj9rwkp9c2.1). CC BY 4.0. Patients of the Medical City Hospital laboratory and the Specialized Center for Endocrinology and Diabetes, Al-Kindy Teaching Hospital, Iraq.
 
-| Metric | Result |
-|--------|--------|
-| **Best Model** | Random Forest Classifier |
-| **Overall Accuracy** | 95.00% |
-| **Prediabetes Detection** | High sensitivity (see detailed results) |
-| **Most Important Features** | 1. HbA1c (45% importance)<br>2. Cholesterol (18%)<br>3. Urea (12%) |
-| **Least Important Features** | Gender, HDL (minimal impact) |
+## Method
 
-### Clinical Insights
-- **HbA1c dominance** aligns with clinical practice, validating model behavior
-- **Cholesterol and urea** contributions suggest metabolic and renal markers add value beyond glucose metrics alone
-- **Gender independence** indicates the model generalizes across sex, though demographic bias should be monitored
+All steps are in `Diabetes_Prediction_model.ipynb`, saved with its outputs.
 
-## Dataset
-
-**File**: `diabetes_raw.csv`
-
-### Features (n=12)
-| Feature | Description | Clinical Relevance |
-|---------|-------------|-------------------|
-| HbA1c | Glycated hemoglobin (%) | 3-month average blood glucose |
-| BMI | Body Mass Index | Obesity indicator |
-| Cholesterol | Total cholesterol (mg/dL) | Cardiovascular risk factor |
-| Triglycerides (TG) | Serum triglycerides | Lipid metabolism |
-| LDL | Low-density lipoprotein | "Bad" cholesterol |
-| HDL | High-density lipoprotein | "Good" cholesterol |
-| Urea | Blood urea nitrogen | Kidney function |
-| Creatinine | Serum creatinine | Kidney function |
-| Age | Patient age (years) | Risk increases with age |
-| Gender | Male/Female | Demographic variable |
-| ... | Additional clinical markers | ... |
-
-### Target Variable
-- **Class 0**: Non-Diabetic
-- **Class 1**: Pre-Diabetic
-- **Class 2**: Diabetic
-
-**Sample Size**: 264 samples  
-**Data Source**: Kaggle dataset (https://www.kaggle.com/datasets/yasserhessein/multiclass-diabetes-dataset)
-
-## Methodology
-
-### Pipeline Overview
-```
-Raw Data → Preprocessing → EDA → Feature Engineering → Model Training → Evaluation → Interpretation
-```
-
-### 1. Data Preprocessing
-- **Missing Values**: There was no missing values in our dataset. 
-- **Outlier Detection**: IQR method / Z-score analysis
-- **Feature Scaling**: StandardScaler for continuous features
-- **Encoding**: Label encoding for categorical variables
-
-### 2. Exploratory Data Analysis
-- Correlation analysis between biomarkers
-- Class distribution analysis
-- Biomarker distribution by diabetes status
-
-### 3. Model Training
-We implemented and compared multiple algorithms:
-
-| Algorithm | Rationale |
-|-----------|-----------|
-| **Random Forest** | Ensemble method, handles non-linearity, provides feature importance |
-| **Support Vector Machine** | Effective in high-dimensional spaces, kernel tricks |
-| **Logistic Regression** | Baseline linear model, interpretable |
-| **Gradient Boosting** | Gradient boosting for comparison |
-
-**Hyperparameter Tuning**: Grid Search with 5-fold cross-validation  
-**Validation Strategy**: 80/20 train-test split with stratification
-
-### 4. Evaluation Metrics
-- **Accuracy**: Overall correctness
-- **Precision/Recall/F1**: Per-class performance
-- **Confusion Matrix**: Error analysis
-- **ROC-AUC**: Discrimination ability (One-vs-Rest for multiclass)
+1. **Exploration:** class balance, correlation heatmap, feature distributions by class.
+2. **Pre-processing:** stratified 70/30 split; features standardised with `StandardScaler` fitted on the training set only.
+3. **Models:** logistic regression (multinomial), random forest (100 trees), gradient boosting (100 estimators) and an RBF-kernel SVM, all with scikit-learn default hyperparameters (no tuning).
+4. **Evaluation:** accuracy and support-weighted precision, recall and F1 on the held-out test set; per-class reports; confusion matrices; one-vs-rest ROC curves for the random forest; 5-fold cross-validation accuracy on the training set as a stability check.
 
 ## Results
 
-### Model Comparison
+Held-out test set of 80 patients (29 non-diabetic, 12 prediabetic, 39 diabetic):
 
-| Model | Accuracy | Precision | Recall | F1-Score |
-|-------|----------|-----------|--------|----------|
-| Random Forest | **95.00%** | **0.94** | **0.95** | **0.94** |
-| SVM | **87.50%** | **0.8767** | **87.50** | **0.8734** |
-| Logistic Regression | **90.00%**| **0.8990** | **0.9000** | **0.8977** |
-| Gradient Boosting | **93.75%** | **0.9378** | **0.9375** | **0.9373** | 
+| Model | Accuracy | Precision | Recall | F1 | 5-fold CV accuracy (training set) |
+|---|---|---|---|---|---|
+| Random forest | 0.9500 | 0.9509 | 0.9500 | 0.9498 | 0.9836 ± 0.0134 |
+| Gradient boosting | 0.9375 | 0.9378 | 0.9375 | 0.9373 | 0.9730 ± 0.0171 |
+| Logistic regression | 0.9000 | 0.8990 | 0.9000 | 0.8977 | 0.8913 ± 0.0296 |
+| SVM (RBF) | 0.8750 | 0.8767 | 0.8750 | 0.8734 | 0.8315 ± 0.0464 |
 
-### Confusion Matrix (Random Forest)
-![Confusion Matrix] <img width="1345" height="1189" alt="Unknown" src="https://github.com/user-attachments/assets/ec65a16a-c6f6-4cda-ad4f-f9d0dc96b60f" />
+Precision, recall and F1 are weighted by class support; ± is the standard deviation across the five folds.
 
-*The model shows strong discrimination across all three classes with minimal misclassification between Non-Diabetic and Diabetic states.*
+**Random forest errors:** all 29 non-diabetic patients were classified correctly; 11 of 12 prediabetic patients (one predicted diabetic); 36 of 39 diabetic patients (two predicted non-diabetic, one prediabetic). One-vs-rest ROC AUC: 0.999 (non-diabetic), 0.999 (prediabetic), 0.983 (diabetic).
 
-### Feature Importance
-![Feature Importance]<img width="989" height="590" alt="Unknown-2" src="https://github.com/user-attachments/assets/ef4547d3-3f1d-4984-8429-8949525a19c3" />
+**Feature importance** (random forest, impurity-based): HbA1c 0.417, BMI 0.270, age 0.114, creatinine 0.036, VLDL 0.033, cholesterol 0.030, triglycerides 0.030, urea 0.028, LDL 0.022, HDL 0.015, gender 0.005.
 
-*HbA1c emerges as the dominant predictor (45% importance), consistent with its role as the gold standard for diabetes diagnosis.*
+## Limitations
 
-### ROC Curves
-![ROC Curves]<img width="989" height="790" alt="Unknown-3" src="https://github.com/user-attachments/assets/dfc9a6e1-b029-4da0-a848-86069513ecec" />
+- **Small test set.** With 80 test patients, one error moves accuracy by 1.25 points; the prediabetic class has only 12 test patients. Random forest and gradient boosting differ by a single patient (76 vs 75 correct).
+- **One split, one seed.** The results come from a single train/test split, with no confidence intervals and no external validation set.
+- **One source population.** All patients come from one data source in Iraq.
+- **Data quality.** A few values look physiologically implausible (for example HbA1c below 3% and a total cholesterol of 0) and were not cleaned.
+- **Importance is not causation.** Impurity-based importances describe this model on this dataset only.
 
-*One-vs-Rest ROC analysis demonstrates high AUC (>0.95) for all classes, indicating excellent discrimination.*
+## Run
 
-## Repository Structure
-
-```
-Diabetes-biomarker-classification/
-├── README.md                          # This file
-├── requirements.txt                   # Python dependencies
-├── LICENSE                            # MIT License
-├── .gitignore                         # Git ignore file
-│
-├── data/
-│   ├── diabetes_raw.csv              # Raw dataset
-│   └── README.md                     # Data documentation
-│
-├── notebooks/
-│   └── Diabetes_Prediction_Model.ipynb  # Main analysis notebook
-│
-├── results/
-│   └── figures/                      # Generated visualizations
-│
-├── docs/
-│   └── ML_Presentation.pptx          # Project presentation
-│
-└── src/                              # [Future] Modular code
-    ├── preprocessing.py
-    ├── models.py
-    └── evaluation.py
-```
-
-## Installation & Usage
-
-### Prerequisites
-- Python 3.8 or higher
-- Jupyter Notebook
-
-### Setup
-
-1. **Clone the repository**
 ```bash
-git clone https://github.com/avinashkamalbharti/Diabetes-biomarker-classification.git
-cd Diabetes-biomarker-classification
+pip install pandas numpy scikit-learn matplotlib seaborn jupyter
+jupyter notebook Diabetes_Prediction_model.ipynb
 ```
 
-2. **Create virtual environment** (recommended)
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+The first cell reads the CSV from GitHub. To use the copy in this repository, set `url = "diabetes_raw.csv"`.
 
-3. **Install dependencies**
-```bash
-pip install -r requirements.txt
-```
+## Files
 
-4. **Launch Jupyter Notebook**
-```bash
-jupyter notebook notebooks/Diabetes_Prediction_Model.ipynb
-```
+| File | Contents |
+|---|---|
+| `Diabetes_Prediction_model.ipynb` | Full analysis, with outputs |
+| `diabetes_raw.csv` | Dataset (264 patients) |
 
-### Quick Start
-```python
-# Load the trained model (after running the notebook)
-import pickle
-with open('models/random_forest_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+## Maintainer
 
-# Make predictions
-sample_features = [...]  # 12 biomarker values
-prediction = model.predict([sample_features])
-print(f"Predicted class: {prediction[0]}")  # 0: Non-diabetic, 1: Pre-diabetic, 2: Diabetic
-```
+Avinash Bharti, PhD scholar, Computer Science and Engineering, IIT Indore · [LinkedIn](https://www.linkedin.com/in/avinashkamalbharti/) · avinashkamalbharti@gmail.com
 
-## Limitations & Future Work
-
-### Current Limitations
-1. **Sample Size**: [Specify if dataset is small; mention need for larger validation cohorts]
-2. **Population Bias**: Model trained on [specific population]; generalizability to other ethnicities/regions needs validation
-3. **Temporal Data**: Cross-sectional data; lacks longitudinal progression information
-4. **Class Imbalance**: [If applicable] Prediabetic class may be underrepresented
-5. **Feature Set**: Limited to 12 biomarkers; additional markers (e.g., insulin, C-peptide) could improve performance
-6. **External Validation**: Requires testing on independent datasets from different clinical settings
-
-### Future Directions
-- [ ] **Expand Dataset**: Collect multi-center data for robust validation
-- [ ] **Temporal Modeling**: Incorporate time-series data to predict diabetes progression
-- [ ] **Deep Learning**: Explore neural networks for potential performance gains
-- [ ] **Explainability**: Implement SHAP/LIME for individual prediction explanations
-- [ ] **Clinical Deployment**: Develop API for electronic health record integration
-- [ ] **Cost-Benefit Analysis**: Quantify health economic impact of ML-assisted screening
-- [ ] **Fairness Audit**: Assess model performance across demographic subgroups
-
-## Related Work
-
-This project builds upon existing research in diabetes prediction using machine learning:
-
-1. **Zou et al. (2018)** - "Predicting Diabetes Mellitus With Machine Learning Techniques" - *Frontiers in Genetics*
-   - Compared 8 ML algorithms; RF achieved 81.84% accuracy
-
-2. **Dinh et al. (2019)** - "A data-driven approach to predicting diabetes and cardiovascular disease with machine learning" - *BMC Medical Informatics*
-   - XGBoost with SMOTE achieved 94.31% accuracy on PIMA dataset
-
-3. **Kopitar et al. (2020)** - "Early detection of type 2 diabetes mellitus using machine learning" - *Scientific Reports*
-   - Random Forest with 10 features: 80.8% accuracy on real-world EHR data
-
-4. **Maniruzzaman et al. (2021)** - "Accurate diabetes risk stratification using machine learning" - *BMC Medical Informatics*
-   - Gaussian Naïve Bayes: 97% accuracy on Bangladesh population
-
-5. **Lai et al. (2019)** - "Prediabetes detection using machine learning" - *JMIR Medical Informatics*
-   - Identified HbA1c, BMI, and age as top predictors
-
-**Our Contribution**: This work uniquely focuses on three-class classification (including prediabetes), achieves competitive performance (95%), and emphasizes interpretability through feature importance analysis relevant to clinical decision-making.
-
-## Citation
-
-If you use this work in your research, please cite:
-
-```bibtex
-@misc{bharti2024diabetes,
-  author = {Bharti, Avinash Kamal},
-  title = {Multiclass Classification of Diabetes Using Machine Learning},
-  year = {2025},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/avinashkamalbharti/Diabetes-biomarker-classification}}
-}
-```
-
-## Author
-
-**Avinash Kamal Bharti**  
-PhD Student, Computer Science (CS 403/603)  
-Indian Institute of Technology Indore  
-
-📧 avinashkamalbharti@gmail.com 
-🔗 [LinkedIn](https://www.linkedin.com/in/avinashkamalbharti/)
-
-## Acknowledgments
-
-This project was developed as part of PhD coursework at IIT Indore. We thank our advisor Dr. Puneet Gupta for his mentorship.
-
-**Last Updated**: November 2025  
-**Status**: Active Development  
-**Feedback**: Issues and pull requests are welcome!
+We thank Dr. Puneet Gupta for his guidance.
